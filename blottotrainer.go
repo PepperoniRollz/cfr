@@ -22,7 +22,6 @@ func NewBlottoTrainer(s, n int) *BlottoTrainer {
 	generateCombinations([]int{}, s, n, 0, &combos)
 	fmt.Println("num combos", len(combos))
 	opp := make([]float64, len(combos))
-	opp[0] = 1
 
 	return &BlottoTrainer{
 		S:            s,
@@ -77,7 +76,7 @@ func (t *BlottoTrainer) train(iterations int) {
 	for i := 0; i < iterations; i++ {
 		t.Strategy = t.getStrategy()
 		myAction := t.getAction(t.Strategy)
-		otherAction := t.getAction(t.Strategy) //Use t.Strategy to find Nash Equilibrium or use oppStrategy to find max explot against a pure strategy
+		otherAction := t.getAction(t.Strategy) //Use t.Strategy to find Nash Equilibrium or create oppStrategy to find max exploit against a pure strategy
 
 		// Reset actionUtility for each iteration
 		for j := range actionUtility {
@@ -85,8 +84,6 @@ func (t *BlottoTrainer) train(iterations int) {
 		}
 
 		actionUtility = getActionUtility(t, otherAction)
-
-		//winning conditions
 
 		// Accumulate regrets
 		for a := 0; a < t.NumActions; a++ {
@@ -161,6 +158,9 @@ func generateCombinations(combination []int, s, n, start int, results *[][]int) 
 	}
 }
 
+// returns the strategy with the highest probability of being played in a mixed strategy.  Not necessarily the "best" strategy
+// for example, in a game with a large number of possible states, there may be many strategies with .11 probability of being played,
+// and several more with less than 0.000001 probability of being played.
 func (t *BlottoTrainer) getBestStrategy() []int {
 	max := math.SmallestNonzeroFloat64
 	index := -1

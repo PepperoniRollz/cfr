@@ -53,9 +53,6 @@ func (t *RpsTrainer) getStrategy() []float64 {
 	return t.Strategy
 }
 func (t *RpsTrainer) getAction(strategy []float64) int {
-	// Ensure the random number generator is seeded
-	// Note: In a real application, you'd likely want to seed the generator
-	// once (e.g., in func main() or init()) rather than in every method call
 	rand.Seed(time.Now().UnixNano())
 
 	r := rand.Float64()
@@ -120,5 +117,5 @@ func (t *RpsTrainer) getAverageStrategy() []float64 {
 		}
 	}
 
-	return avgStrategy // Return the calculated average strategy.
+	return avgStrategy
 }
