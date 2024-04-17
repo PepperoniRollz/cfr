@@ -26,20 +26,21 @@
 {{block "start" .}}
 <h1>Kuhn AI</h1>
 <p>Let's play Kuhn Poker!</h1>
-    <p>We're going to play Kuhn Poker against the AI.  You'll be player 1, meaning you'll have first action</p>
-    <p>Rules: You and the AI will be dealt 1 of 3 cards, a Jack, a Queen, a King.</p>
-    <p>There will be one round of betting after antes are placed.  You'll receive a card and then check or bet 1 unit</p>
-    <p>After checking or betting, the AI will have the option to check or bet.  If you both check, highest card wins the pot. If you bet and get called, the higher card wins.</p>
+    <p>We're going to play Kuhn Poker against RoboDurrr.  You'll be player 1 permanently until I fix this, meaning you'll have first action...Always</p>
+    <p>Rules: You and RoboDurrr will be dealt 1 of 3 cards, a Jack, a Queen, a King.</p>
+    <p>There will be one round of betting after antes are placed.  You'll receive a card and then check or bet 1 dollar or peso or something.</p>
+    <p>After checking or betting, RoboDurrr will have the option to check or bet.  If you both check, or if you bet and get called, the higher card wins.</p>
+    <p>If you fold...you lose.</p>
     <button hx-post="/start" hx-swap="outerHTML" hx-target="#dash">Start Game!</button>
 {{end}}
 
 {{block "dashboard" .}}
 <div  id="dash">
     <h2>Dashboard</h2>
-    <div>player stack: {{.PlayerStack}}</div>
-    <div>ai stack: {{.AiStack}}</div>
-    <div>Player 1 card: {{.PlayerCard}}</div>
-    <div>Ai card: {{.AiCard}}</div>
+    <div>Your stack: {{.PlayerStack}}</div>
+    <div>RoboDurrr stack: {{.AiStack}}</div>
+    <div>Your card: {{.PlayerCard}}</div>
+    <div>RoboDurrr card: {{.AiCard}}</div>
     <div>Current Pot: {{.Pot}}</div>
     <div>Hand number: {{.HandNumber}}</div>
     <button hx-post="/pass" hx-swap="outerHTML" hx-target="#dash">check/fold</button>
@@ -50,11 +51,3 @@
     </div>
 </div>
 {{end}}
-
-<script>
-function updateGameLog(message) {
-    var textarea = document.getElementById('gameLog');
-    textarea.value += message + "\n"; // Append new log message
-    textarea.scrollTop = textarea.scrollHeight; // Scroll to the bottom
-}
-</script>

@@ -86,7 +86,7 @@ func (g *Game) beginRound() {
 	g.AiStack--
 	g.Pot = 2
 	g.ActionHistory = ""
-	g.GameLog = g.GameLog + fmt.Sprintf("Player 1 antes 1\nAi antes 1\nYou've been dealt a %d\n", g.PlayerCard) + "...waiting for action...\n"
+	g.GameLog = g.GameLog + fmt.Sprintf("Player 1 antes 1\nRoboDurrr antes 1\nYou've been dealt a %d\n", g.PlayerCard) + "...waiting for action...\n"
 }
 func (g *Game) aiAction() Action {
 	node := g.Ai.nodeMap[fmt.Sprintf("1 %d%s", g.AiCard, g.ActionHistory)]
@@ -118,12 +118,12 @@ func (g *Game) check() {
 		aiAction := g.aiAction()
 		if aiAction == Pass {
 			g.ActionHistory = g.ActionHistory + "p"
-			g.GameLog = g.GameLog + "The ai has checked behind\n"
+			g.GameLog = g.GameLog + "RoboDurrr checked behind\n"
 			g.GameState = Showdown
 			resolveRound(g)
 		} else {
 			g.ActionHistory = g.ActionHistory + "b"
-			g.GameLog = g.GameLog + "The ai has bet 1 unit\n"
+			g.GameLog = g.GameLog + "RoboDurrr has bet 1 currency\n...Waiting for your action...\n"
 
 			g.Pot++
 			g.AiStack--
@@ -131,7 +131,6 @@ func (g *Game) check() {
 		}
 	} else if g.GameState == SecondAction {
 		g.GameLog = g.GameLog + "You have folded\n"
-		fmt.Println("I AM FOOOOOOOLDING")
 		g.GameState = PlayerFolded
 		resolveRound(g)
 	}
@@ -140,24 +139,24 @@ func (g *Game) bet() {
 	g.ActionHistory = g.ActionHistory + "b"
 
 	if g.GameState == FirstAction {
-		g.GameLog = g.GameLog + "You have bet 1 unit\n"
+		g.GameLog = g.GameLog + "You have bet 1 currency\n"
 		g.PlayerStack--
 		g.Pot++
 		aiAction := g.aiAction()
 		if aiAction == Pass {
-			g.GameLog = g.GameLog + "The ai has folded\n"
+			g.GameLog = g.GameLog + "RoboDurrr has folded\n"
 			g.GameState = AiFolded
 			resolveRound(g)
 
 		} else {
 			g.Pot++
 			g.AiStack--
-			g.GameLog = g.GameLog + "The ai has called\n"
+			g.GameLog = g.GameLog + "RoboDurrr has called\n"
 			g.GameState = Showdown
 			resolveRound(g)
 		}
 	} else if g.GameState == SecondAction {
-		g.GameLog = g.GameLog + "You have called for 1 unit\n"
+		g.GameLog = g.GameLog + "You have called for 1 currency\n"
 		g.PlayerStack--
 		g.Pot++
 		g.GameState = Showdown
@@ -173,21 +172,22 @@ func resolveRound(game *Game) {
 		fmt.Println("Game is now resolving...")
 		switch state {
 		case Showdown:
-			game.GameLog = game.GameLog + fmt.Sprintf("You showdown a %d\nRobot shows down a %d\n", game.PlayerCard, game.AiCard)
+			game.GameLog = game.GameLog + fmt.Sprintf("You showdown a %d\nRoboDurrr shows down a %d\n", game.PlayerCard, game.AiCard)
 			if game.PlayerCard > game.AiCard {
 				game.PlayerStack += game.Pot
 				game.GameLog = game.GameLog + "You have won!\n"
 			} else {
 				game.AiStack += game.Pot
-				game.GameLog = game.GameLog + "Robot has won!\n"
+				game.GameLog = game.GameLog + "RoboDurrr has won!\n"
 			}
 		case PlayerFolded:
 			game.AiStack += game.Pot
-			game.GameLog = game.GameLog + "Robot has won!\n"
+			game.GameLog = game.GameLog + "RoboDurrr has won!\n"
 		case AiFolded:
 			game.PlayerStack += game.Pot
 			game.GameLog = game.GameLog + "You have won!\n"
 		}
+		game.GameLog = game.GameLog + "******* New Hand *******\n"
 		game.Pot = 0
 		game.HandNumber++
 		game.beginRound()
@@ -201,7 +201,6 @@ func main() {
 
 	e.GET("/", func(c echo.Context) error {
 		return c.Render(200, "index", nil)
-
 	})
 
 	e.POST("/start", func(c echo.Context) error {
