@@ -8,23 +8,24 @@
     <title>Kuhn AI</title>
     <!-- HTMX CDN -->
     <script src="https://unpkg.com/htmx.org@1.8.1/dist/htmx.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=1.2">
+
 </head>
 <title>Kuhn AI</title>
 <body>
-     {{ template "start" .}}
-     <hr/>
-     <div id="st"></div> Placeholder where the dashboard will load
-     {{ template "dashboard" .}}
-     <hr/>
- 
-
+    {{ template "start" .}}
+    <hr/>
+    <div>
+    </div>
+    {{ template "dashboard" .}}
+    <hr/>
 </body>
 </html>
 {{end}}
 
 {{block "start" .}}
 <h1>Kuhn AI</h1>
-    <p>Let's play Kuhn Poker!</h1>
+<p>Let's play Kuhn Poker!</h1>
     <p>We're going to play Kuhn Poker against the AI.  You'll be player 1, meaning you'll have first action</p>
     <p>Rules: You and the AI will be dealt 1 of 3 cards, a Jack, a Queen, a King.</p>
     <p>There will be one round of betting after antes are placed.  You'll receive a card and then check or bet 1 unit</p>
@@ -45,7 +46,15 @@
     <button hx-post="/bet" hx-swap="outerHTML" hx-target="#dash">bet/call</button>
     <div>
         <h2 id="idk">Gamelog</h2>
-        <textarea rows="15"cols="50" >{{.GameLog}}</textarea>
+        <textarea readonly rows="15"cols="50" >{{.GameLog}}</textarea>
     </div>
 </div>
 {{end}}
+
+<script>
+function updateGameLog(message) {
+    var textarea = document.getElementById('gameLog');
+    textarea.value += message + "\n"; // Append new log message
+    textarea.scrollTop = textarea.scrollHeight; // Scroll to the bottom
+}
+</script>

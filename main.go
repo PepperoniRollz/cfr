@@ -74,7 +74,7 @@ func (t *Templates) Render(w io.Writer, name string, data interface{}, c echo.Co
 
 func newTemplate() *Templates {
 	return &Templates{
-		templates: template.Must(template.ParseGlob("*.html")),
+		templates: template.Must(template.ParseGlob("./static/*html")),
 	}
 }
 func (g *Game) beginRound() {
@@ -131,6 +131,7 @@ func (g *Game) check() {
 		}
 	} else if g.GameState == SecondAction {
 		g.GameLog = g.GameLog + "You have folded\n"
+		fmt.Println("I AM FOOOOOOOLDING")
 		g.GameState = PlayerFolded
 		resolveRound(g)
 	}
