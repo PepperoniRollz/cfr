@@ -30,5 +30,7 @@ in the form [0.333,0.666] where 0th element is check/pass and the 1st element is
 - make code less crappy
 
 
+super modern v1 ui 
+<img width="1085" alt="image" src="https://github.com/PepperoniRollz/cfr/assets/51208066/97e546f8-9179-4b4c-9d2f-429061cc259b">
 
 
