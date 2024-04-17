@@ -40,7 +40,7 @@
     <div>Player 1 card: {{.PlayerCard}}</div>
     <div>Ai card: {{.AiCard}}</div>
     <div>Current Pot: {{.Pot}}</div>
-    <div>Hand number: {{.RoundNum}}</div>
+    <div>Hand number: {{.HandNumber}}</div>
     <button hx-post="/pass" hx-swap="outerHTML" hx-target="#dash">check/fold</button>
     <button hx-post="/bet" hx-swap="outerHTML" hx-target="#dash">bet/call</button>
     <div>
