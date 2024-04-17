@@ -50,20 +50,18 @@ func (t *BlottoTrainer) getAction(strategy []float64) int {
 }
 
 func (t *BlottoTrainer) getAverageStrategy() []float64 {
-	avgStrategy := make([]float64, t.NumActions) // Create a slice for the average strategy.
-	var normalizingSum float64                   // Accumulator for the normalization factor.
+	avgStrategy := make([]float64, t.NumActions)
+	var normalizingSum float64
 
-	// Sum the strategies to find the normalization factor.
 	for _, sum := range t.StrategySum {
 		normalizingSum += sum
 	}
 
-	// Calculate the average strategy based on the accumulated strategy sums.
 	for a, sum := range t.StrategySum {
 		if normalizingSum > 0 {
-			avgStrategy[a] = sum / normalizingSum // Normalize if there's a non-zero sum.
+			avgStrategy[a] = sum / normalizingSum
 		} else {
-			avgStrategy[a] = 1.0 / float64(t.NumActions) // Distribute evenly if no strategies have been played.
+			avgStrategy[a] = 1.0 / float64(t.NumActions)
 		}
 	}
 

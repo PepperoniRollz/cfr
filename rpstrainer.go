@@ -16,7 +16,6 @@ type RpsTrainer struct {
 	OppStrategy []float64
 }
 
-// NewRpsTrainer is a constructor function for RpsTrainer that initializes its fields.
 func NewRpsTrainer() *RpsTrainer {
 	numActions := 3
 	return &RpsTrainer{
@@ -72,16 +71,14 @@ func (t *RpsTrainer) train(iterations int) {
 	actionUtility := make([]float64, t.NumActions)
 
 	for i := 0; i < iterations; i++ {
-		t.Strategy = t.getStrategy() // Update the strategy at the start of each iteration
+		t.Strategy = t.getStrategy()
 		myAction := t.getAction(t.Strategy)
-		otherAction := t.getAction(t.Strategy) // Assuming this simulates an opponent's action based on t.OppStrategy
+		otherAction := t.getAction(t.Strategy)
 
-		// Reset actionUtility for each iteration
 		for j := range actionUtility {
 			actionUtility[j] = 0
 		}
 
-		// Determine utility of playing each action against the otherAction
 		if otherAction == t.NumActions-1 {
 			actionUtility[0] = 1
 		} else {
@@ -93,27 +90,24 @@ func (t *RpsTrainer) train(iterations int) {
 			actionUtility[otherAction-1] = -1
 		}
 
-		// Accumulate regrets
 		for a := 0; a < t.NumActions; a++ {
 			t.RegretSum[a] += actionUtility[a] - actionUtility[myAction]
 		}
 	}
 }
 func (t *RpsTrainer) getAverageStrategy() []float64 {
-	avgStrategy := make([]float64, t.NumActions) // Create a slice for the average strategy.
-	var normalizingSum float64                   // Accumulator for the normalization factor.
+	avgStrategy := make([]float64, t.NumActions)
+	var normalizingSum float64
 
-	// Sum the strategies to find the normalization factor.
 	for _, sum := range t.StrategySum {
 		normalizingSum += sum
 	}
 
-	// Calculate the average strategy based on the accumulated strategy sums.
 	for a, sum := range t.StrategySum {
 		if normalizingSum > 0 {
-			avgStrategy[a] = sum / normalizingSum // Normalize if there's a non-zero sum.
+			avgStrategy[a] = sum / normalizingSum
 		} else {
-			avgStrategy[a] = 1.0 / float64(t.NumActions) // Distribute evenly if no strategies have been played.
+			avgStrategy[a] = 1.0 / float64(t.NumActions)
 		}
 	}
 
