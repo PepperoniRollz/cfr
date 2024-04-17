@@ -1,0 +1,49 @@
+{{block "index" .}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuhn AI</title>
+    <!-- HTMX CDN -->
+    <script src="https://unpkg.com/htmx.org@1.8.1/dist/htmx.min.js"></script>
+</head>
+<title>Kuhn AI</title>
+<body>
+     {{ template "start" .}}
+     <hr/>
+     <div id="st"></div> Placeholder where the dashboard will load
+     {{ template "dashboard" .}}
+     <hr/>
+ 
+
+</body>
+</html>
+{{end}}
+
+{{block "start" .}}
+    <p>Let's play Kuhn!</h1>
+    <p>We're going to play Kuhn Poker against the AI.  You'll be player 1, meaning you'll have first action</p>
+    <p>Rules: You and the AI will be dealt 1 of 3 cards, a Jack, a Queen, a King.</p>
+    <p>There will be one round of betting after antes are placed.  You'll receive a card and then check or bet 1 unit</p>
+    <p>After checking or betting, the AI will have the option to check or bet.  If you both check, highest card wins the pot. If you bet and get called, the higher card wins.</p>
+    <button hx-post="/start" hx-swap="outerHTML" hx-target="#dash">Start Game!</button>
+{{end}}
+
+{{block "dashboard" .}}
+<div  id="dash">
+    <h2>Dashboard</h2>
+    <div>player stack: {{.PlayerStack}}</div>
+    <div>ai stack: {{.AiStack}}</div>
+    <div>Player 1 card: {{.PlayerCard}}</div>
+    <div>Ai card: {{.AiCard}}</div>
+    <div>Current Pot: {{.Pot}}</div>
+    <button hx-post="/pass" hx-swap="outerHTML" hx-target="#dash">check/fold</button>
+    <button hx-post="/bet" hx-swap="outerHTML" hx-target="#dash">bet/call</button>
+    <div>
+        <h2 id="idk">Gamelog</h2>
+        <textarea rows="15"cols="50">{{.GameLog}}</textarea>
+    </div>
+</div>
+{{end}}
