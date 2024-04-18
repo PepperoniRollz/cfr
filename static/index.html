@@ -47,7 +47,7 @@
     <button hx-post="/bet" hx-swap="outerHTML" hx-target="#dash">bet/call</button>
     <div>
         <h2 id="idk">Gamelog</h2>
-        <textarea readonly rows="15"cols="50" >{{.GameLog}}</textarea>
+        <textarea readonly rows="15"cols="50" >{{.GameLog.Log}}</textarea>
     </div>
 </div>
 {{end}}
