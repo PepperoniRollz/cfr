@@ -93,7 +93,7 @@ func (n kuhnNode) String() string {
 }
 
 func (k KuhnTrainer) Train(iterations int) {
-	cards := []rune{'J', 'Q', 'K'}
+	cards := []rune{'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'}
 	util := 0.0
 	for i := 0; i < iterations; i++ {
 		Shuffle(cards)
@@ -173,7 +173,7 @@ func terminalStatePayoff(cards []rune, plays int, history string, player int, op
 		if history[plays-2:plays] == "bb" {
 			doubleBet = true
 		}
-		if cards[player] > cards[opponent] {
+		if GetCardRank(cards[player]) > GetCardRank(cards[opponent]) {
 			isPlayerCardHigher = true
 		}
 		if terminalPass {
@@ -208,4 +208,36 @@ func (k *KuhnTrainer) getOrCreateKuhnNode(infoSet string, player int) *kuhnNode 
 		return node
 	}
 	return node
+}
+func GetCardRank(r rune) int {
+	switch r {
+	case '2':
+		return 2
+	case '3':
+		return 3
+	case '4':
+		return 4
+	case '5':
+		return 5
+	case '6':
+		return 6
+	case '7':
+		return 7
+	case '8':
+		return 8
+	case '9':
+		return 9
+	case 'T': // T stands for 10 in some card notation systems
+		return 10
+	case 'J': // Jack
+		return 11
+	case 'Q': // Queen
+		return 12
+	case 'K': // King
+		return 13
+	case 'A': // Ace
+		return 14
+	default:
+		return 0 // for any undefined cards
+	}
 }

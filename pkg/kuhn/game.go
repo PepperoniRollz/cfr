@@ -65,9 +65,9 @@ type Game struct {
 }
 
 func NewGame() *Game {
-	d := []rune{'J', 'Q', 'K'}
+	d := []rune{'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'}
 	trainer := NewKuhnTrainer()
-	trainer.Train(10000)
+	trainer.Train(100000)
 	Shuffle(d)
 	return &Game{
 		PlayerStack:    10,
@@ -241,7 +241,7 @@ func resolveRound(game *Game) {
 	switch state {
 	case Showdown:
 		game.GameLog.append(fmt.Sprintf("You showdown a %c\nRoboDurrr shows down a %c", game.PlayerCard, game.AiCard))
-		if game.PlayerCard > game.AiCard {
+		if GetCardRank(game.PlayerCard) > GetCardRank(game.AiCard) {
 			game.PlayerStack += game.Pot
 			game.GameLog.append("You have won!")
 		} else {
