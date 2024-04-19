@@ -93,7 +93,7 @@ func (n kuhnNode) String() string {
 }
 
 func (k KuhnTrainer) Train(iterations int) {
-	cards := []int{1, 2, 3}
+	cards := []rune{'J', 'Q', 'K'}
 	util := 0.0
 	for i := 0; i < iterations; i++ {
 		Shuffle(cards)
@@ -106,13 +106,13 @@ func (k KuhnTrainer) Train(iterations int) {
 	fmt.Println("Num infosets: ", len(k.NodeMap))
 }
 
-func Shuffle(cards []int) {
+func Shuffle(cards []rune) {
 	rand.Shuffle(len(cards), func(i, j int) {
 		cards[i], cards[j] = cards[j], cards[i]
 	})
 }
 
-func (k *KuhnTrainer) cfr(cards []int, history string, p0 float64, p1 float64) float64 {
+func (k *KuhnTrainer) cfr(cards []rune, history string, p0 float64, p1 float64) float64 {
 	plays := len(history)
 	player := plays % 2
 	opponent := 1 - player
@@ -120,7 +120,7 @@ func (k *KuhnTrainer) cfr(cards []int, history string, p0 float64, p1 float64) f
 	if terminalStatePayoff != 0 {
 		return float64(terminalStatePayoff)
 	}
-	infoSet := strconv.Itoa(player) + " " + strconv.Itoa(cards[player]) + history
+	infoSet := strconv.Itoa(player) + " " + string(cards[player]) + history
 	node := k.getOrCreateKuhnNode(infoSet, player)
 
 	var strategy []float64
@@ -161,7 +161,7 @@ func (k *KuhnTrainer) cfr(cards []int, history string, p0 float64, p1 float64) f
 	return nodeUtil
 }
 
-func terminalStatePayoff(cards []int, plays int, history string, player int, opponent int) int {
+func terminalStatePayoff(cards []rune, plays int, history string, player int, opponent int) int {
 	if plays > 1 {
 
 		terminalPass := false
