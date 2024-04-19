@@ -25,7 +25,7 @@ in the form [0.333,0.666] where 0th element is check/pass and the 1st element is
 ## ToDo
 - ~~make a readme~~
 - finish ui for kuhn poker to play against ai
-- switch between player 1 and player 2 between hands
+- ~~switch between player 1 and player 2 between hands~~
 - display gto strategies
 - make code less crappy
 
