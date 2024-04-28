@@ -8,10 +8,9 @@
     <title>Kuhn AI</title>
     <!-- HTMX CDN -->
     <script src="https://unpkg.com/htmx.org@1.8.1/dist/htmx.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.2">
+    <link rel="stylesheet" href="../static/styles.css">
 
 </head>
-<title>Kuhn AI</title>
 <body>
     {{ template "start" .}}
     <hr/>
@@ -19,19 +18,28 @@
     </div>
     {{ template "dashboard" .}}
     <hr/>
+    <script src="../static/probabilityGrid.js"></script>
+    <script src="../static/script.js"></script>
 </body>
 </html>
 {{end}}
 
 {{block "start" .}}
 <h1>Kuhn AI</h1>
-<p>Let's play Kuhn Poker!</h1>
+<h1>Let's play Kuhn Poker!</h1>
+    <div id="actionTree" class="action-tree">
+        <!-- Initial action node will be added dynamically -->
+    </div>
+    <div id="probabilityGrid" class="probability-grid">
+        <!-- Cells will be added dynamically -->
+    </div>
     <p>We're going to play Kuhn Poker against RoboDurrr.  You'll be player 1 to start and alternate every hand</p>
     <p>Rules: You and RoboDurrr will be dealt a card of normal ranks 2-A, where Ace is highest.</p>
     <p>There will be one round of betting after antes are placed.  You'll receive a card and then check or bet 1 dollar or peso or something.</p>
     <p>After checking or betting, RoboDurrr will have the option to check or bet.  If you both check, or if you bet and get called, the higher card wins.</p>
     <p>If you fold...you lose.</p>
     <button hx-post="/start" hx-swap="outerHTML" hx-target="#dash">Start New Game!</button>
+
 {{end}}
 
 {{block "dashboard" .}}
@@ -40,7 +48,6 @@
     <div>Your stack: {{.PlayerStack}}</div>
     <div>RoboDurrr stack: {{.AiStack}}</div>
     <div>Your card: {{.PlayerCard}}</div>
-    <div>RoboDurrr card: {{.AiCard}}</div>
     <div>Current Pot: {{.Pot}}</div>
     <div>Hand number: {{.HandNumber}}</div>
     <button hx-post="/pass" hx-swap="outerHTML" hx-target="#dash">check/fold</button>
@@ -48,6 +55,10 @@
     <div>
         <h2 id="idk">Gamelog</h2>
         <textarea readonly rows="15"cols="50" >{{.GameLog.Log}}</textarea>
+    </div>
+    <div class="square">
+        <div class="green"></div>
+        <div class="red"></div>
     </div>
 </div>
 {{end}}

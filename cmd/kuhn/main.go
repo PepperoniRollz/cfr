@@ -21,7 +21,7 @@ func (t *Templates) Render(w io.Writer, name string, data interface{}, c echo.Co
 
 func newTemplate() *Templates {
 	return &Templates{
-		templates: template.Must(template.ParseGlob("../../static/*html")),
+		templates: template.Must(template.ParseGlob("../../templates/*.html")),
 	}
 }
 
@@ -30,6 +30,7 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Renderer = newTemplate()
+	e.Static("/static", "../../static")
 
 	e.GET("/", func(c echo.Context) error {
 		return c.Render(200, "index", nil)

@@ -17,7 +17,6 @@ type kuhnNode struct {
 	regretSum   []float64
 	strategy    []float64
 	strategySum []float64
-	player      int
 }
 
 func NewKuhnTrainer() KuhnTrainer {
@@ -34,7 +33,6 @@ func newKuhnNode(p int) *kuhnNode {
 		regretSum:   make([]float64, 2),
 		strategy:    make([]float64, 2),
 		strategySum: make([]float64, 2),
-		player:      p,
 	}
 }
 
